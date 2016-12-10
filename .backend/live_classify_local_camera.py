@@ -45,21 +45,23 @@ if __name__ == "__main__":
             if (not ret):
                 exit()
             try:
-                bb2 = align.getLargestFaceBoundingBox(cameraFrame)
-                alignedFace2 = align.align(96, cameraFrame, bb2,
-                                           landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
-                id = classify(alignedFace2, net, clf, le)
+                
+                bbs = align.getAllFaceBoundingBoxes(cameraFrame)
+                for bb2 in bbs:
+                    alignedFace2 = align.align(96, cameraFrame, bb2,
+                                            landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
+                    id = classify(alignedFace2, net, clf, le)
 
-                person_name = id_name[id]
+                    person_name = id_name[id]
 
-                frameSleep = 50
-                rectColor = (0, 255, 0)
-                textColor = (255, 0, 0)
-                face_top_left = (bb2.left(), bb2.top())
-                face_bottom_right = (bb2.right(), bb2.bottom())
-                cv2.rectangle(cameraFrame, face_top_left, face_bottom_right,rectColor)
-                cv2.putText(cameraFrame, str(person_name), face_top_left,
-                            fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=textColor, thickness=2)
+                    frameSleep = 50
+                    rectColor = (0, 255, 0)
+                    textColor = (255, 0, 0)
+                    face_top_left = (bb2.left(), bb2.top())
+                    face_bottom_right = (bb2.right(), bb2.bottom())
+                    cv2.rectangle(cameraFrame, face_top_left, face_bottom_right,rectColor)
+                    cv2.putText(cameraFrame, str(person_name), face_top_left,
+                                fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=textColor, thickness=2)
                 cv2.imshow('FaceRecognizer', cameraFrame)
                 if (cv2.waitKey(frameSleep) >= 0):
                     break

@@ -4,3 +4,4 @@ private/build
 faceit-hackathon.iml
 .idea/
 *.pkl
+snapshot.tmp.png
