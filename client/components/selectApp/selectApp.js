@@ -4,5 +4,8 @@ export default function (Template) {
   });
 
   Template['selectApp'].events({
+    'click #events-link': function() {
+      FlowRouter.go('/events');
+    }
   });
 }

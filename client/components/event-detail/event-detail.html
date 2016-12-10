@@ -1,0 +1,32 @@
+<template name="event-detail">
+  <div class="event-detail">
+    <div class="event-photo">
+      <img class="ui fluid image" src="{{event.photo}}">
+    </div>
+    <div class="padding">
+      <div class="chart">
+        <img src="/images/chart.svg">
+
+        <span class="top left">Current: {{ event.currentCheckedIn }}</span>
+        <span class="top right">Max checked in: {{ event.maxAttendee }}</span>
+        <span class="bottom left">{{ formatTime(event.start) }}</span>
+        <span class="bottom right">{{ formatTime(event.end) }}</span>
+      </div>
+
+      <table class="ui unstackable table">
+        <tbody>
+          {{#each checkIns}}
+          <tr>
+            {{#with getUser userId}}
+            <td>
+              {{profile.name}} checked in
+            </td>
+            {{/with}}
+            <td class="right aligned">{{ formatDate(createdAt) }}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>

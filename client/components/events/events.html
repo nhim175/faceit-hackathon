@@ -1,0 +1,20 @@
+<template name="events">
+  <div class="event-list padding">
+  {{#each events}}
+    <div class="event-list-item" data-id="{{ _id }}">
+      <h3 class="event-title">{{name}}</h3>
+      <div class="event-content">
+        <img class="ui mini small image" src="http://placehold.it/32x32">
+
+        <p>
+          <b>Host:</b> {{user.name}}<br>
+          <b>Max attendee:</b> {{maxAttendee}}<br>
+          <b>Current checked in:</b> {{currentCheckedIn}}<br>
+          <b>Place:</b> {{place}}<br>
+          <b>Start:</b> {{formatDate(start)}}
+        </p>
+      </div>
+    </div>
+  {{/each}}
+  </div>
+</template>
