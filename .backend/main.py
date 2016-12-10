@@ -9,15 +9,15 @@ dlibModelDir = os.path.join(modelDir, 'dlib')
 openfaceModelDir = os.path.join(modelDir, 'openface')
 
 # `args` are parsed command-line arguments.
-dlib_predictor = "./.resources/shape_predictor_68_face_landmarks.dat"
+dlib_predictor = "./resources/shape_predictor_68_face_landmarks.dat"
 align = openface.AlignDlib(dlib_predictor)
-network_model = "./.resources/nn4.small2.v1.t7"
+network_model = "./resources/nn4.small2.v1.t7"
 
 net = openface.TorchNeuralNet(network_model, 96)
 
 # `img` is a numpy matrix containing the RGB pixels of the image.
-img1 = cv2.imread("./.resources/Phong/Phong0.png")
-img2 = cv2.imread("./.resources/Phong/Phong1.png")
+img1 = cv2.imread("./resources/Phong/Phong0.png")
+img2 = cv2.imread("./resources/Phong/Phong1.png")
 bb1 = align.getLargestFaceBoundingBox(img1)
 bb2 = align.getLargestFaceBoundingBox(img2)
 alignedFace1 = align.align(96, img1, bb1,
