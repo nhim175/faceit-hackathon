@@ -49,12 +49,14 @@ if __name__ == "__main__":
                 id = classify(alignedFace2, net, clf, le)
 
                 if id == 0:
-                    person_name = "Martin"
+                    person_name = "Eric"
                 elif id == 1:
-                    person_name = "Neil"
+                    person_name = "Martin"
                 elif id == 2:
-                    person_name = "Phong"
+                    person_name = "Neil"
                 elif id == 3:
+                    person_name = "Phong"
+                elif id == 4:
                     person_name = "Thinh"
 
                 frameSleep = 50
