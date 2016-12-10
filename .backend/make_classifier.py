@@ -13,9 +13,6 @@ import cv2
 import openface
 import pickle
 
-import lasagne
-import theano
-import theano.tensor as T
 
 def getRep(imgPath, align, net, multiple=False):
     bgrImg = cv2.imread(imgPath)
