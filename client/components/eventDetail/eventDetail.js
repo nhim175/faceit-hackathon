@@ -1,5 +1,5 @@
 import FIEvent from '/universal/models/Event';
-import FICheckIn from '/universal/models/CheckIn';
+import FIAttendee from '/universal/models/Attendee';
 import moment from 'moment';
 
 export default function (Template) {
@@ -14,8 +14,9 @@ export default function (Template) {
     },
 
     'checkIns': function() {
-      return FICheckIn.find({
-        eventId: this.params.id
+      return FIAttendee.find({
+        eventId: this.params.id,
+        checkedIn: true
       });
     },
 

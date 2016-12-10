@@ -1,0 +1,16 @@
+<template name="eventAttendance">
+  <div class="event-attendance padding">
+    <div class="ui grid">
+        {{#each attendees}}
+        <div class="four wide column user-list-item {{#if checkedIn}}checked-in{{/if}}" data-id="{{ _id }}">
+          {{#with getUser userId}}
+          <div class="user">
+            <img class="ui circular fluid image" src="{{ getAvatar(this) }}">
+            <p class="ui center aligned">{{profile.name}}</p>
+          </div>
+          {{/with}}
+        </div>
+        {{/each}}
+    </div>
+  </div>
+</template>

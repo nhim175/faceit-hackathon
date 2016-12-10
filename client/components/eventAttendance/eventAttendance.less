@@ -1,0 +1,21 @@
+.event-attendance {
+  .user-list-item {
+    &.checked-in {
+      .user {
+        position: relative;
+
+        &:after {
+          content: '';
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background-color: #6bbf62;
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+      }
+    }
+  }
+}

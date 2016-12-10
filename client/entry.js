@@ -9,6 +9,7 @@ import createSelectApp from './components/selectApp/selectApp';
 import createHeader from './components/header/header';
 import createEvents from './components/events/events';
 import createEventDetail from './components/eventDetail/eventDetail';
+import createEventAttendance from './components/eventAttendance/eventAttendance';
 import createAppHeader from './components/appHeader/appHeader';
 
 createMainRoutes(FlowRouter);
@@ -20,4 +21,5 @@ createHeader(Template);
 createSelectApp(Template);
 createEvents(Template);
 createEventDetail(Template);
+createEventAttendance(Template);
 createAppHeader(Template);
