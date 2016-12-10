@@ -16,6 +16,10 @@ export default function (Template) {
     'click .event-list-item'(event) {
       var id = $(event.currentTarget).data('id');
       FlowRouter.go(`/events/${id}`);
+    },
+
+    'click #back-btn': function() {
+      history.back();
     }
   });
 

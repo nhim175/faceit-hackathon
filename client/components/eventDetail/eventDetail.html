@@ -1,4 +1,22 @@
 <template name="eventDetail">
+  <div class="app-header has-right">
+    <div class="ui top attached menu">
+      <div class="ui icon item" id="back-btn">
+        <i class="chevron left icon"></i>
+      </div>
+
+      <div class="header-title">
+        <h3 class="ui header center aligned">{{event.name}}</h3>
+      </div>
+
+      <div class="right menu">
+        <div class="ui icon item" id="attendance-btn" data-id="{{ event._id }}">
+          <i class="users icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="event-detail">
     <div class="event-photo">
       <img class="ui fluid image" src="{{event.photo}}">

@@ -27,6 +27,9 @@ export default function (Template) {
   });
 
   Template['eventAttendance'].events({
+    'click #back-btn': function() {
+      history.back();
+    }
   });
 
   Template['eventAttendance'].onCreated(function() {

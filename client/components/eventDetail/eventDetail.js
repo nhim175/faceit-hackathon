@@ -40,6 +40,16 @@ export default function (Template) {
   });
 
   Template['eventDetail'].events({
+    'click #back-btn': function() {
+      history.back();
+    },
+
+    'click #attendance-btn': function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      var id = $(event.currentTarget).data('id');
+      FlowRouter.go(`/events/${id}/attendance`);
+    }
   });
 
   Template['eventDetail'].onCreated(function() {
