@@ -20,6 +20,16 @@ export default function (Template) {
       });
     },
 
+    'count': function(collection) {
+      return collection.count();
+    },
+
+    'attendees': function() {
+      return FIAttendee.find({
+        eventId: this.params.id
+      });
+    },
+
     'formatTime': function(time) {
       return moment(time).format('HH:mmA');
     },

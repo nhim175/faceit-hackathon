@@ -7,8 +7,8 @@
       <div class="chart">
         <img src="/images/chart.svg">
 
-        <span class="top left">Current: {{ event.currentCheckedIn }}</span>
-        <span class="top right">Max checked in: {{ event.maxAttendee }}</span>
+        <span class="top left">Current: {{ count(checkIns) }}</span>
+        <span class="top right">Max checked in: {{ count(attendees) }}</span>
         <span class="bottom left">{{ formatTime(event.start) }}</span>
         <span class="bottom right">{{ formatTime(event.end) }}</span>
       </div>
