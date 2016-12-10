@@ -4,7 +4,7 @@ import moment from 'moment';
 
 export default function (Template) {
 
-  Template['event-detail'].helpers({
+  Template['eventDetail'].helpers({
     'event': function() {
       return FIEvent.findOne(this.params.id);
     },
@@ -28,10 +28,10 @@ export default function (Template) {
     }
   });
 
-  Template['event-detail'].events({
+  Template['eventDetail'].events({
   });
 
-  Template['event-detail'].onCreated(function() {
+  Template['eventDetail'].onCreated(function() {
     Session.set('viewTitle', 'Event detail');
   });
 }
