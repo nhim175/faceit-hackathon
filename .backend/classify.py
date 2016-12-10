@@ -14,10 +14,8 @@ import cv2
 import openface
 import pickle
 
-def classify(alignedFace, net, classifierModel):
-    r = net.forward(alignedFace)
-    rep = r[1].reshape(1, -1)
-    bbx = r[0]
+def classify(alignedFace, net, clf, le):
+    rep = net.forward(alignedFace)
     predictions = clf.predict_proba(rep).ravel()
     maxI = np.argmax(predictions)
     person = le.inverse_transform(maxI)
@@ -26,9 +24,9 @@ def classify(alignedFace, net, classifierModel):
             
         
 if __name__ == "__main__":
-    dlib_predictor = "./.resources/shape_predictor_68_face_landmarks.dat"
+    dlib_predictor = "./resources/shape_predictor_68_face_landmarks.dat"
     align = openface.AlignDlib(dlib_predictor)
-    network_model = "./.resources/nn4.small2.v1.t7"
+    network_model = "./resources/nn4.small2.v1.t7"
     net = openface.TorchNeuralNet(network_model, 96)
     classifierModel = "./svm.pkl"
 
@@ -49,4 +47,4 @@ if __name__ == "__main__":
             bb,
             landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
         
-        classify(alignedFace, net)
+        classify(alignedFace, net, clf, le)

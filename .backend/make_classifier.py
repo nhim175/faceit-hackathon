@@ -63,6 +63,8 @@ def train(features, labels):
     ]
     clf = GridSearchCV(SVC(C=1, probability=True), param_grid, cv=5)
 
+    clf.fit(features, labelsNum)
+
     fName = "{}/svm.pkl".format(".")
     print("Saving classifier to '{}'".format(fName))
     with open(fName, 'w') as f:
@@ -73,7 +75,7 @@ def makeClassifier(allfacesdir, align, net):
     facesdir = [o for o in os.listdir(allfacesdir) if os.path.isdir(os.path.join(allfacesdir,o))]
     id_counter = 0
     
-    features = []
+    features = None
     labels = []
     
     for facedir in facesdir:
@@ -86,7 +88,10 @@ def makeClassifier(allfacesdir, align, net):
             print facesdir_image_path
             reps = getRep(facesdir_image_path, align, net)
             
-            features.append(reps)
+            if features == None:
+                features = reps
+            else:
+                features = np.concatenate([features, reps])
             labels.append(id_counter)
                 
                 
@@ -96,9 +101,9 @@ def makeClassifier(allfacesdir, align, net):
     train(features, labels)
 
 if __name__ == "__main__":
-    dlib_predictor = "./.resources/shape_predictor_68_face_landmarks.dat"
+    dlib_predictor = "./resources/shape_predictor_68_face_landmarks.dat"
     align = openface.AlignDlib(dlib_predictor)
-    network_model = "./.resources/nn4.small2.v1.t7"
+    network_model = "./resources/nn4.small2.v1.t7"
     net = openface.TorchNeuralNet(network_model, 96)
     
-    makeClassifier("./.resources/", align, net)
+    makeClassifier("./resources/", align, net)
