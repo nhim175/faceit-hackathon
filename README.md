@@ -11,4 +11,19 @@ $ meteor
 
 ## Dev
 
-Read through the [GUIDE.md](https://github.com/matteodem/meteor-boilerplate/blob/master/GUIDE.md) or checkout the repository locally for more information.
+Deploy:
+
+1. At your local, run
+sh sh .meteor/bin/deploy.sh
+
+2. At your remote run
+cd /www/faceit/programs/server
+npm install
+cd ../../
+
+3. forever is not started
+MONGO_URL=$MONGO_URL ROOT_URL=$ROOT_URL PORT=$PORT forever start main.js
+
+4. If forever started
+
+MONGO_URL=$MONGO_URL ROOT_URL=$ROOT_URL PORT=$PORT forever restart 0

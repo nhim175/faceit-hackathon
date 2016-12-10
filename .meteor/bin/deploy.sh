@@ -3,13 +3,10 @@
 # Cleanup
 
 rm -rf .meteor/local/*
+ssh root@47.91.16.100 rm -rf /www/faceit/*
 
 # Build project
 npm install
 meteor build --directory .meteor/local --server-only --server http://faceit.tonny.me
 
-cd .meteor/local/bundle/programs/server
-npm install
-
-cd ../../
-node main.js
+scp -r .meteor/local/bundle/* root@47.91.16.100:/www/faceit
