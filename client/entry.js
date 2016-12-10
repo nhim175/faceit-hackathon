@@ -8,7 +8,7 @@ import createHome from './components/home/home';
 import createSelectApp from './components/selectApp/selectApp';
 import createHeader from './components/header/header';
 import createEvents from './components/events/events';
-import createEventDetail from './components/event-detail/event-detail';
+import createEventDetail from './components/eventDetail/eventDetail';
 import createAppHeader from './components/appHeader/appHeader';
 
 createMainRoutes(FlowRouter);

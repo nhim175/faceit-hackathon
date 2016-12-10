@@ -7,6 +7,6 @@ export default function () {
   });
 
   FlowRouter.route('/events/:id', {
-    action: (params, queryParams) => renderApp('event-detail', params, queryParams)
+    action: (params, queryParams) => renderApp('eventDetail', params, queryParams)
   });
 }
