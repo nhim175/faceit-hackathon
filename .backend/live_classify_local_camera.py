@@ -4,6 +4,8 @@ import os
 import cv2
 import pickle
 
+id_name = ["Eric", "Martin","Neil","Phong","Thinh"]
+
 def classify(alignedFace, net, clf, le):
     rep = net.forward(alignedFace)
     predictions = clf.predict_proba(rep).ravel()
@@ -48,16 +50,7 @@ if __name__ == "__main__":
                                            landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
                 id = classify(alignedFace2, net, clf, le)
 
-                if id == 0:
-                    person_name = "Eric"
-                elif id == 1:
-                    person_name = "Martin"
-                elif id == 2:
-                    person_name = "Neil"
-                elif id == 3:
-                    person_name = "Phong"
-                elif id == 4:
-                    person_name = "Thinh"
+                person_name = id_name[id]
 
                 frameSleep = 50
                 rectColor = (0, 255, 0)

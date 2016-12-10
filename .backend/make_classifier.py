@@ -13,6 +13,7 @@ import cv2
 import openface
 import pickle
 
+id_name = ["Eric", "Martin","Neil","Phong","Thinh"]
 
 def getRep(imgPath, align, net, multiple=False):
     bgrImg = cv2.imread(imgPath)
@@ -70,13 +71,13 @@ def train(features, labels):
 def makeClassifier(allfacesdir, align, net):
 
     facesdir = [o for o in os.listdir(allfacesdir) if os.path.isdir(os.path.join(allfacesdir,o))]
-    id_counter = 0
     
     features = None
     labels = []
     
     for facedir in facesdir:
         name = facedir
+        id_counter = id_name.index(name)
         facedir_path = os.path.join(allfacesdir, facedir)
         facesdir_images = [o for o in os.listdir(facedir_path) if os.path.isfile(os.path.join(facedir_path,o))]
         
@@ -89,10 +90,9 @@ def makeClassifier(allfacesdir, align, net):
                 features = reps
             else:
                 features = np.concatenate([features, reps])
+            
             labels.append(id_counter)
                 
-                
-        id_counter += 1
     
     print features
     train(features, labels)
