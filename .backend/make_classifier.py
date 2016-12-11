@@ -54,8 +54,6 @@ def getRep(imgPath, align, net, multiple=False):
 def train(features, labels):
     le = LabelEncoder().fit(labels)
     labelsNum = le.transform(labels)
-    nClasses = len(le.classes_)
-    # create Theano variables for input and target minibatch
     param_grid = [
         {'C': [1, 10, 100, 1000],
          'kernel': ['linear']},

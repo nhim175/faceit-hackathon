@@ -86,11 +86,12 @@ if __name__ == "__main__":
                         cv2.rectangle(cameraFrame, face_top_left, face_bottom_right,rectColor)
                         cv2.putText(cameraFrame, str(person_name), face_top_left,
                                     fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=textColor, thickness=2)
-                        
-                        # show the image
-                        cv2.imshow('FaceRecognizer ' + str(video_id), cameraFrame)
-                        if (cv2.waitKey(frameSleep) >= 0):
-                            exit()
+
+                    # show the image
+                    cv2.imshow('FaceRecognizer ' + str(video_id), cameraFrame)
+                    if (cv2.waitKey(frameSleep) >= 0):
+                        exit()
+                                
 
                 except:
                     cv2.imshow('FaceRecognizer ' + str(video_id), cameraFrame)
