@@ -3,6 +3,8 @@ import numpy as np
 import os
 import cv2
 import pickle
+from pymongo import MongoClient
+import time
 
 # those id to name mapping should come from the mangoDB server. However, the network is too slow to sufficiently do so.
 id_name = ["Eric", "Martin","Neil","Phong","Thinh"]
@@ -15,7 +17,32 @@ def classify(alignedFace, net, clf, le):
     person = le.inverse_transform(maxI) # get the real persons id
     confidence = predictions[maxI] # the confidence how sure we are about this classification
     print("Predict {} with {:.2f} confidence.".format(person, confidence)) 
-    return person
+    return person, confidence
+
+# A function to push to MongoDB
+# pram: person_id: id from classifying result.
+#       type: "in" or "out"
+
+def push_to_db(person_id, type):
+    client = MongoClient('mongodb://47.91.16.198:27017')
+    db = client['faceit']
+    # Get the userId for the classifyID
+    db_id = db['UserClassifyId']
+    record = db_id.find_one({"classifyId": person_id})
+    user_id = record['userId']
+
+    # Content to push
+    event_id = "pHJ9fGNMxNMh88pGH"
+    created_at = time.time()
+    post = {"userId": user_id,
+            "eventId": event_id,
+            "type": type,
+            "createdAt": created_at}
+
+    db_to_push = db['CheckInOutQueue']
+    post_id = db_to_push.insert_one(post).inserted_id
+    print(post_id)
+
 
 if __name__ == "__main__":
     
@@ -49,6 +76,12 @@ if __name__ == "__main__":
             # catch the two streams
             for video in video_steams:
                 video_id = video_steams.index(video)
+
+                # Video id 0 for going in, and the rest are going out.
+                if video_id == 0:
+                    type = "in"
+                else:
+                    type = "out"
                 
                 # skip some frames as the network is too slow to process all frames
                 for i in range(0,25):
@@ -72,20 +105,21 @@ if __name__ == "__main__":
                                                 landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
                         
                         # get the user id for this face
-                        id = classify(alignedFace2, net, clf, le)
+                        id, confidence = classify(alignedFace2, net, clf, le)
+                        if confidence >= 0.5:
+                            push_to_db(id, type)
+                            # the persons name
+                            person_name = id_name[id]
 
-                        # the persons name
-                        person_name = id_name[id]
-
-                        frameSleep = 50
-                        # draw some region and the name in the image
-                        rectColor = (0, 255, 0)
-                        textColor = (255, 0, 0)
-                        face_top_left = (bb2.left(), bb2.top())
-                        face_bottom_right = (bb2.right(), bb2.bottom())
-                        cv2.rectangle(cameraFrame, face_top_left, face_bottom_right,rectColor)
-                        cv2.putText(cameraFrame, str(person_name), face_top_left,
-                                    fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=textColor, thickness=2)
+                            frameSleep = 50
+                            # draw some region and the name in the image
+                            rectColor = (0, 255, 0)
+                            textColor = (255, 0, 0)
+                            face_top_left = (bb2.left(), bb2.top())
+                            face_bottom_right = (bb2.right(), bb2.bottom())
+                            cv2.rectangle(cameraFrame, face_top_left, face_bottom_right,rectColor)
+                            cv2.putText(cameraFrame, str(person_name) + " (" + str(type) + ")", face_top_left,
+                                        fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=textColor, thickness=2)
 
                     # show the image
                     cv2.imshow('FaceRecognizer ' + str(video_id), cameraFrame)
