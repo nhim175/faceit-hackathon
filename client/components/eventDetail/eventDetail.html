@@ -25,7 +25,7 @@
       <div class="chart">
         <img src="/images/chart.svg">
 
-        <span class="top left">Current: {{ count(checkIns) }}</span>
+        <span class="top left">Current: {{ count(checkedIns) }}</span>
         <span class="top right">Max checked in: {{ count(attendees) }}</span>
         <span class="bottom left">{{ formatTime(event.start) }}</span>
         <span class="bottom right">{{ formatTime(event.end) }}</span>
@@ -33,15 +33,30 @@
 
       <table class="ui unstackable table">
         <tbody>
-          {{#each checkIns}}
-          <tr>
-            {{#with getUser userId}}
-            <td>
-              {{profile.name}} checked in
-            </td>
-            {{/with}}
-            <td class="right aligned">{{ formatDate(createdAt) }}</td>
-          </tr>
+          {{#each checkInOuts}}
+            {{#if isCheckIn this}}
+            <tr>
+              {{#with getAttendee attendeeId}}
+                {{#with getUser userId}}
+                <td>
+                  {{profile.name}} checked in
+                </td>
+                {{/with}}
+              {{/with}}
+              <td class="right aligned">{{ formatDate(createdAt) }}</td>
+            </tr>
+            {{else}}
+            <tr>
+              {{#with getAttendee attendeeId}}
+                {{#with getUser userId}}
+                <td>
+                  {{profile.name}} checked out
+                </td>
+                {{/with}}
+              {{/with}}
+              <td class="right aligned">{{ formatDate(createdAt) }}</td>
+            </tr>
+            {{/if}}
           {{/each}}
         </tbody>
       </table>

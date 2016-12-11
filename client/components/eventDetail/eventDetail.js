@@ -1,5 +1,6 @@
 import FIEvent from '/universal/models/Event';
 import FIAttendee from '/universal/models/Attendee';
+import FICheckInOut from '/universal/models/CheckInOut';
 import moment from 'moment';
 
 export default function (Template) {
@@ -13,10 +14,24 @@ export default function (Template) {
       return Meteor.users.findOne(userId);
     },
 
-    'checkIns': function() {
+    'getAttendee': function(attendeeId) {
+      return FIAttendee.findOne(attendeeId);
+    },
+
+    'isCheckIn': function(checkInOut) {
+      return checkInOut.type === 'in';
+    },
+
+    'checkedIns': function() {
       return FIAttendee.find({
         eventId: this.params.id,
         checkedIn: true
+      });
+    },
+
+    'checkInOuts': function() {
+      return FICheckInOut.find({
+        eventId: this.params.id
       });
     },
 
