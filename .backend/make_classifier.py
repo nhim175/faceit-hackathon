@@ -13,8 +13,11 @@ import cv2
 import openface
 import pickle
 
+
+# currently hard mapped id to name, as network is too slow and no access to facebook as been granted
 id_name = ["Eric", "Martin","Neil","Phong","Thinh"]
 
+# function the calculate the feature representation of the face
 def getRep(imgPath, align, net, multiple=False):
     bgrImg = cv2.imread(imgPath)
     if bgrImg is None:
@@ -47,6 +50,7 @@ def getRep(imgPath, align, net, multiple=False):
     return sreps
 
 
+# train the classifier
 def train(features, labels):
     le = LabelEncoder().fit(labels)
     labelsNum = le.transform(labels)
@@ -65,9 +69,11 @@ def train(features, labels):
 
     fName = "{}/svm.pkl".format(".")
     print("Saving classifier to '{}'".format(fName))
+    # store the classifier
     with open(fName, 'w') as f:
         pickle.dump((le, clf), f)
 
+# training the classifier to make the prediction for a face
 def makeClassifier(allfacesdir, align, net):
 
     facesdir = [o for o in os.listdir(allfacesdir) if os.path.isdir(os.path.join(allfacesdir,o))]

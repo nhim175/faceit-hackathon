@@ -1,0 +1,26 @@
+Library dependencies:
+python based project with requirements for:
+pickle
+openface
+dlib
+opencv (cv2)
+
+
+Usage:
+First we have to create the classifier. This would be ideally done on the server.
+Place all images in resources like:
+perdons_name/persons_name<running_int>.png
+
+then run the make_classifier.py script.
+It will create a file called svm.pkl
+
+Next run the live_classify_wireless_camera.py
+
+The IP cameras have a streaming protocol which is not yet supported well by the server packages directly. To address this issue we use ffmpeg to transcode this steam into a supported format:
+
+ffmpeg -i rtsp://4903681:12345678@10.201.120.92:554/onvif2 -codec copy -f mjpeg udp://127.0.0.1:6000
+ffmpeg -i rtsp://4903681:12345678@10.201.120.170:554/onvif2 -codec copy -f mjpeg udp://127.0.0.1:6001
+
+Those two commands connect to the IP cameras and make a motion-jpeg stream available on the local ports 6000 and 6001.
+
+the python script live_classify_wireless_camera.py connect to those ports.
