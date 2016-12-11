@@ -5,6 +5,8 @@ import cv2
 import pickle
 import vlc
 
+id_name = ["Eric", "Martin","Neil","Phong","Thinh"]
+
 def classify(alignedFace, net, clf, le):
     rep = net.forward(alignedFace)
     predictions = clf.predict_proba(rep).ravel()
@@ -34,13 +36,23 @@ if __name__ == "__main__":
     with open(classifierModel, 'r') as f:
         (le, clf) = pickle.load(f)
 
-        player = vlc.MediaPlayer("rtsp://10.201.120.92:554/onvif2")
-        player.play()
+        #player = vlc.MediaPlayer("rtsp://10.201.120.92:554/onvif2")
+        #player.play()
+        #video = cv2.VideoCapture("rtsp://4903681:12345678@10.201.120.92:554/onvif2")
+        video = cv2.VideoCapture("udp://127.0.0.1:6000")
+        if(video is None):
+            print("There is no video!")
+            exit
 
         while True:
             # Grab image
-            player.video_take_snapshot(0, './snapshot.tmp.png', 0, 0)
-            cameraFrame = cv2.imread("./snapshot.tmp.png")
+            #player.video_take_snapshot(0, './snapshot.tmp.png', 0, 0)
+            #cameraFrame = cv2.imread("./snapshot.tmp.png")
+            for i in range(0,25):
+                video.grab()
+            ret, cameraFrame = video.read()
+            if (not ret):
+                exit()
 
             try:
                 bb2 = align.getLargestFaceBoundingBox(cameraFrame)
@@ -48,14 +60,7 @@ if __name__ == "__main__":
                                            landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
                 id = classify(alignedFace2, net, clf, le)
 
-                if id == 0:
-                    person_name = "Martin"
-                elif id == 1:
-                    person_name = "Neil"
-                elif id == 2:
-                    person_name = "Phong"
-                elif id == 3:
-                    person_name = "Thinh"
+                person_name = id_name[id]
 
                 frameSleep = 50
                 rectColor = (0, 255, 0)
