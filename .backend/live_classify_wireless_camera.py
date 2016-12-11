@@ -9,7 +9,7 @@ id_name = ["Eric", "Martin","Neil","Phong","Thinh"]
 
 def classify(alignedFace, net, clf, le):
     rep = net.forward(alignedFace)
-    predictions = clf.predict_proba(rep).ravel()
+    predictions = clf.predict_proba(rep.reshape(1, -1)).ravel()
     maxI = np.argmax(predictions)
     person = le.inverse_transform(maxI)
     confidence = predictions[maxI]
