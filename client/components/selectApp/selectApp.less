@@ -2,4 +2,14 @@
 
 .select-app.container {
   margin: @baseSpacing;
+
+  .ui.list {
+    > .item {
+      padding: @smallSpacing;
+
+      &:first-child {
+        padding-top: 0;
+      }
+    }
+  }
 }
