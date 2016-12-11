@@ -14,7 +14,7 @@ $ meteor
 Deploy:
 
 1. At your local, run
-sh sh .meteor/bin/deploy.sh
+sh .meteor/bin/deploy.sh
 
 2. At your remote run
 cd /www/faceit/programs/server
