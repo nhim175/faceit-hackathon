@@ -57,6 +57,7 @@ if __name__ == "__main__":
     db = client['faceit']
     db_id = db['UserClassifyId']
     db_to_push = db['CheckInOutQueue']
+    print("Connection to DB done")
 
     with open(classifierModel, 'r') as f: # try to open the classifier
         (le, clf) = pickle.load(f) # open the classifier
