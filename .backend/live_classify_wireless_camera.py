@@ -39,8 +39,8 @@ if __name__ == "__main__":
         #player = vlc.MediaPlayer("rtsp://10.201.120.92:554/onvif2")
         #player.play()
         #video = cv2.VideoCapture("rtsp://4903681:12345678@10.201.120.92:554/onvif2")
-        video1 = cv2.VideoCapture("udp://127.0.0.1:6000")
-        video2 = cv2.VideoCapture("udp://127.0.0.1:6001")
+        video1 = cv2.VideoCapture("udp://10.201.120.52:6000")
+        video2 = cv2.VideoCapture("udp://10.201.120.52:6001")
         
         if(video1 is None or video2 is None):
             print("There is no video!")
