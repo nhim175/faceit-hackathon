@@ -5,7 +5,7 @@ import cv2
 import pickle
 
 # those id to name mapping should come from the mangoDB server. However, the network is too slow to sufficiently do so.
-id_name = ["Eric", "Martin","Neil","Phong","Thinh"]
+id_name = ["Eric", "Martin","Neil","Phong","Thinh","Xanta_Klause", "Fanta_Klauss"]
 
 # receives and aligned image, the deep neural network to calculate the features, the classifier+labels
 def classify(alignedFace, net, clf, le):

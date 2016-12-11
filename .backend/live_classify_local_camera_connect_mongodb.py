@@ -7,7 +7,7 @@ from pymongo import MongoClient
 import time
 
 
-id_name = ["Eric", "Martin","Neil","Phong","Thinh"]
+id_name = ["Eric", "Martin","Neil","Phong","Thinh","Xanta_Klause", "Fanta_Klauss"]
 
 def classify(alignedFace, net, clf, le):
     rep = net.forward(alignedFace)

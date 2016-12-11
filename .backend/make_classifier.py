@@ -15,7 +15,7 @@ import pickle
 
 
 # currently hard mapped id to name, as network is too slow and no access to facebook as been granted
-id_name = ["Eric", "Martin","Neil","Phong","Thinh"]
+id_name = ["Eric", "Martin","Neil","Phong","Thinh","Xanta_Klause", "Fanta_Klauss"]
 
 # function the calculate the feature representation of the face
 def getRep(imgPath, align, net, multiple=False):

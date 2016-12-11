@@ -7,7 +7,7 @@ from pymongo import MongoClient
 import time
 
 # those id to name mapping should come from the mangoDB server. However, the network is too slow to sufficiently do so.
-id_name = ["Eric", "Martin","Neil","Phong","Thinh"]
+id_name = ["Eric", "Martin","Neil","Phong","Thinh","Xanta_Klause", "Fanta_Klauss"]
 
 # receives and aligned image, the deep neural network to calculate the features, the classifier+labels
 def classify(alignedFace, net, clf, le):
@@ -106,7 +106,7 @@ if __name__ == "__main__":
                         
                         # get the user id for this face
                         id, confidence = classify(alignedFace2, net, clf, le)
-                        if confidence >= 0.5:
+                        if float(confidence) >= 0.4:
                             push_to_db(id, type)
                             # the persons name
                             person_name = id_name[id]
@@ -119,7 +119,7 @@ if __name__ == "__main__":
                             face_bottom_right = (bb2.right(), bb2.bottom())
                             cv2.rectangle(cameraFrame, face_top_left, face_bottom_right,rectColor)
                             cv2.putText(cameraFrame, str(person_name) + " (" + str(type) + ")", face_top_left,
-                                        fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=textColor, thickness=2)
+                                        fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=textColor, thickness=2)
 
                     # show the image
                     cv2.imshow('FaceRecognizer ' + str(video_id), cameraFrame)
