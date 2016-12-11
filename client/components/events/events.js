@@ -9,6 +9,10 @@ export default function (Template) {
 
     'formatDate': function(time) {
       return moment(time).format('MM/DD HH:mmA');
+    },
+
+    'getPhoto': function(event) {
+      return event.photo || 'http://placehold.it/150x94';
     }
   });
 

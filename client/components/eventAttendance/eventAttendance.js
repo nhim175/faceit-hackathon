@@ -29,6 +29,11 @@ export default function (Template) {
   Template['eventAttendance'].events({
     'click #back-btn': function() {
       history.back();
+    },
+
+    'click .user-list-item': function(event) {
+      var userId = $(event.currentTarget).data('id');
+      FlowRouter.go(`/users/${userId}`);
     }
   });
 

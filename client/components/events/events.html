@@ -16,7 +16,7 @@
     <div class="event-list-item" data-id="{{ _id }}">
       <h3 class="event-title">{{name}}</h3>
       <div class="event-content">
-        <img class="ui mini small image" src="http://placehold.it/32x32">
+        <img class="ui mini small image" src="{{getPhoto(this)}}">
 
         <p>
           <b>Host:</b> {{user.name}}<br>

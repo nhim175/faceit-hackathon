@@ -14,7 +14,7 @@
   <div class="event-attendance padding">
     <div class="ui grid">
         {{#each attendees}}
-        <div class="four wide column user-list-item {{#if checkedIn}}checked-in{{/if}}" data-id="{{ _id }}">
+        <div class="four wide column user-list-item {{#if checkedIn}}checked-in{{/if}}" data-id="{{ userId }}">
           {{#with getUser userId}}
           <div class="user">
             <img class="ui circular fluid image" src="{{ getAvatar(this) }}">
