@@ -42,6 +42,8 @@ def push_to_db(db_id, db_to_push, person_id, type):
 
 if __name__ == "__main__":
     
+    frameSleep = 10
+    
     # the path to our deep learning model
 
     dlib_predictor = "./resources/shape_predictor_68_face_landmarks.dat" # the library to find and align a face
@@ -66,6 +68,9 @@ if __name__ == "__main__":
         video1 = cv2.VideoCapture("udp://127.0.0.1:6000")
         video2 = cv2.VideoCapture("udp://127.0.0.1:6001")
         
+        video1.set(cv2.CAP_PROP_BUFFERSIZE, 3);
+        video2.set(cv2.CAP_PROP_BUFFERSIZE, 3);
+        
         # stop if we have no video
         if(video1 is None or video2 is None):
             print("There is no video!")
@@ -73,10 +78,13 @@ if __name__ == "__main__":
             
         video_steams = [video1, video2]
         
+        counter = 0
+        
         # loop forever
         while True:
             # catch the two streams
             for video in video_steams:
+                counter += 1;
                 video_id = video_steams.index(video)
 
                 # Video id 0 for going in, and the rest are going out.
@@ -100,6 +108,7 @@ if __name__ == "__main__":
                     # get the faces in the image
                     bbs = align.getAllFaceBoundingBoxes(cameraFrame)
                     
+                    to_push = []
                     # iterate over all faces
                     for bb2 in bbs:
                         # align the face before calculating features
@@ -108,30 +117,35 @@ if __name__ == "__main__":
                         
                         # get the user id for this face
                         id, confidence = classify(alignedFace2, net, clf, le)
-                        if float(confidence) >= 0.4:
-                            push_to_db(db_id, db_to_push, id, type)
+                        to_push.append((id, confidence))
+                        if float(confidence) >= 0.5:
                             # the persons name
                             person_name = id_name[id]
 
-                            frameSleep = 50
                             # draw some region and the name in the image
                             rectColor = (0, 255, 0)
                             textColor = (255, 0, 0)
                             face_top_left = (bb2.left(), bb2.top())
                             face_bottom_right = (bb2.right(), bb2.bottom())
                             cv2.rectangle(cameraFrame, face_top_left, face_bottom_right,rectColor)
-                            cv2.putText(cameraFrame, str(person_name) + " (" + str(type) + ")", face_top_left,
+                            cv2.putText(cameraFrame, str(counter) + " (" + str(type) + ")", face_top_left,
                                         fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=textColor, thickness=2)
 
                     # show the image
                     cv2.imshow('FaceRecognizer ' + str(video_id), cameraFrame)
+                    # push the results to DB
+                    
+                    for (id, confidence) in to_push:
+                        push_to_db(db_id, db_to_push, id, type)
+                        
                     if (cv2.waitKey(frameSleep) >= 0):
                         exit()
-                                
+                    
+                        
 
                 except:
-                    cv2.imshow('FaceRecognizer ' + str(video_id), cameraFrame)
-                    continue
+                    #cv2.imshow('FaceRecognizer ' + str(video_id), cameraFrame)
+                    pass
 
 
 
