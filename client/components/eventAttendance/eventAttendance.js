@@ -22,6 +22,10 @@ export default function (Template) {
     'attendees': function() {
       return FIAttendee.find({
         eventId: this.params.id
+      }, {
+        sort: {
+          checkedIn: -1
+        }
       });
     }
   });
