@@ -23,11 +23,8 @@ def classify(alignedFace, net, clf, le):
 # pram: person_id: id from classifying result.
 #       type: "in" or "out"
 
-def push_to_db(person_id, type):
-    client = MongoClient('mongodb://47.91.16.198:27017')
-    db = client['faceit']
+def push_to_db(db_id, db_to_push, person_id, type):
     # Get the userId for the classifyID
-    db_id = db['UserClassifyId']
     record = db_id.find_one({"classifyId": person_id})
     user_id = record['userId']
 
@@ -39,7 +36,6 @@ def push_to_db(person_id, type):
             "type": type,
             "createdAt": created_at}
 
-    db_to_push = db['CheckInOutQueue']
     post_id = db_to_push.insert_one(post).inserted_id
     print(post_id)
 
@@ -56,6 +52,11 @@ if __name__ == "__main__":
 
     # `img` is a numpy matrix containing the RGB pixels of the image.
     classifierModel = "./svm.pkl" # our trained classifier to receive a persons id
+
+    client = MongoClient('mongodb://47.91.16.198:27017')
+    db = client['faceit']
+    db_id = db['UserClassifyId']
+    db_to_push = db['CheckInOutQueue']
 
     with open(classifierModel, 'r') as f: # try to open the classifier
         (le, clf) = pickle.load(f) # open the classifier
@@ -107,7 +108,7 @@ if __name__ == "__main__":
                         # get the user id for this face
                         id, confidence = classify(alignedFace2, net, clf, le)
                         if float(confidence) >= 0.4:
-                            push_to_db(id, type)
+                            push_to_db(db_id, db_to_push, id, type)
                             # the persons name
                             person_name = id_name[id]
 
