@@ -32,6 +32,10 @@ export default function (Template) {
     'checkInOuts': function() {
       return FICheckInOut.find({
         eventId: this.params.id
+      }, {
+        sort: {
+          createdAt: -1
+        }
       });
     },
 
@@ -46,11 +50,11 @@ export default function (Template) {
     },
 
     'formatTime': function(time) {
-      return moment(time).format('HH:mmA');
+      return moment(time).format('H:mmA');
     },
 
     'formatDate': function(time) {
-      return moment(time).format('MM/DD HH:mmA');
+      return moment(time).format('MM/DD h:mmA');
     }
   });
 

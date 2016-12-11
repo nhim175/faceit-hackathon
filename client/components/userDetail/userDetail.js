@@ -9,6 +9,10 @@ export default function (Template) {
     'checkInOuts': function() {
       return FICheckInOut.find({
         userId: this.params.id
+      }, {
+        sort: {
+          createdAt: -1
+        }
       });
     },
 
