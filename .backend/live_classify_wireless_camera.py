@@ -39,44 +39,51 @@ if __name__ == "__main__":
         #player = vlc.MediaPlayer("rtsp://10.201.120.92:554/onvif2")
         #player.play()
         #video = cv2.VideoCapture("rtsp://4903681:12345678@10.201.120.92:554/onvif2")
-        video = cv2.VideoCapture("udp://127.0.0.1:6000")
-        if(video is None):
+        video1 = cv2.VideoCapture("udp://127.0.0.1:6000")
+        video2 = cv2.VideoCapture("udp://127.0.0.1:6001")
+        
+        if(video1 is None or video2 is None):
             print("There is no video!")
-            exit
-
+            exit()
+            
+        video_steams = [video1, video2]
+        
         while True:
-            # Grab image
-            #player.video_take_snapshot(0, './snapshot.tmp.png', 0, 0)
-            #cameraFrame = cv2.imread("./snapshot.tmp.png")
-            for i in range(0,25):
-                video.grab()
-            ret, cameraFrame = video.read()
-            if (not ret):
-                exit()
+            for video in video_steams:
+                video_id = video_steams.index(video)
+                # Grab image
+                #player.video_take_snapshot(0, './snapshot.tmp.png', 0, 0)
+                #cameraFrame = cv2.imread("./snapshot.tmp.png")
+                for i in range(0,25):
+                    video.grab()
+                ret, cameraFrame = video.read()
+                
+                if (not ret):
+                    exit()
 
-            try:
-                bb2 = align.getLargestFaceBoundingBox(cameraFrame)
-                alignedFace2 = align.align(96, cameraFrame, bb2,
-                                           landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
-                id = classify(alignedFace2, net, clf, le)
+                try:
+                    bb2 = align.getLargestFaceBoundingBox(cameraFrame)
+                    alignedFace2 = align.align(96, cameraFrame, bb2,
+                                            landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
+                    id = classify(alignedFace2, net, clf, le)
 
-                person_name = id_name[id]
+                    person_name = id_name[id]
 
-                frameSleep = 50
-                rectColor = (0, 255, 0)
-                textColor = (255, 0, 0)
-                face_top_left = (bb2.left(), bb2.top())
-                face_bottom_right = (bb2.right(), bb2.bottom())
-                cv2.rectangle(cameraFrame, face_top_left, face_bottom_right,rectColor)
-                cv2.putText(cameraFrame, str(person_name), face_top_left,
-                            fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=textColor, thickness=2)
-                cv2.imshow('FaceRecognizer', cameraFrame)
-                if (cv2.waitKey(frameSleep) >= 0):
-                    break
+                    frameSleep = 50
+                    rectColor = (0, 255, 0)
+                    textColor = (255, 0, 0)
+                    face_top_left = (bb2.left(), bb2.top())
+                    face_bottom_right = (bb2.right(), bb2.bottom())
+                    cv2.rectangle(cameraFrame, face_top_left, face_bottom_right,rectColor)
+                    cv2.putText(cameraFrame, str(person_name), face_top_left,
+                                fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=textColor, thickness=2)
+                    cv2.imshow('FaceRecognizer ' + str(video_id), cameraFrame)
+                    if (cv2.waitKey(frameSleep) >= 0):
+                        exit()
 
-            except:
-                cv2.imshow('FaceRecognizer', cameraFrame)
-                continue
+                except:
+                    cv2.imshow('FaceRecognizer ' + str(video_id), cameraFrame)
+                    continue
 
 
 
